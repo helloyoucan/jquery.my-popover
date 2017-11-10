@@ -1,7 +1,7 @@
 # jquery.my-popover
 支持ie9+
 
-用于定位到元素旁边并打开一个连接
+用于定位到元素旁边出现iframe并打开一个链接
 
 <img src='http://opok8iwaa.bkt.clouddn.com/image/github/jquery.my-popoverjquery.my-popover.png' style='width:500px'/>
 
