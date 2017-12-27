@@ -1,34 +1,106 @@
 # jquery.my-popover
 支持ie9+
 
-用于定位到元素旁边并打开一个连接
+用于定位到元素旁边并打开指定的内容
 
-<img src='http://opok8iwaa.bkt.clouddn.com/image/github/jquery.my-popoverjquery.my-popover.png' style='width:500px'/>
+<img src='http://opok8iwaa.bkt.clouddn.com/image/github/jquery.my-popover/jquery.my-popover-2.png'/>
+<img src='http://opok8iwaa.bkt.clouddn.com/image/github/jquery.my-popover/jquery.my-popover-1.png'/>
 
 
 
 #### 示例代码
 
-```html
-<input type="text" name="test" id="test" value="" />
-<script type="text/javascript" src="js/jquery-1.9.1.min.js"></script>
-<script type="text/javascript" src="js/jquery.my-popover.js"></script>
-<script type="text/javascript">
-  		//2种不同的方式
-		var mp = new myPopover('test.html');
-		/*var mp = new myPopover({
-			width: 700,
-			height: 400,
-			minWidth: 400,
-			minHeight: 300,
-			src: 'test.html',
-		});*/
-		$('#test').on('click', function() {
-           //2种不同的方式
-		  //mp.show(this, 'test.html');
-           //在上面设置了默认的src，就不用再次设置
-			mp.show(this);//this为当前的dom
-		});
-</script>
+```javascript
+var zTreeObj;
+			$('.test1').myPopover({
+				content: '<ul id="treeDemo" class="ztree"></ul>',
+				maxHeight: '200px',
+				afterAddDom: function() {
+					// zTree 的参数配置，深入使用请参考 API 文档（setting 配置详解）
+					var setting = {
+						check: {
+							enable: true,
+							chkboxType: {
+								"Y": "s",
+								"N": "s"
+							}
+						}
+					};
+					// zTree 的数据属性，深入使用请参考 API 文档（zTreeNode 节点数据详解）
+					var nodes = [{
+							name: "父节点1",
+							children: [{
+									name: "子节点1"
+								},
+								{
+									name: "子节点2",
+									checked: true
+								}
+							]
+						},
+						{
+							name: "父节点1",
+							children: [{
+									name: "子节点1"
+								},
+								{
+									name: "父节点1",
+									children: [{
+											name: "子节点1"
+										},
+										{
+											name: "父节点1",
+											children: [{
+													name: "子节点1"
+												},
+												{
+													name: "子节点2"
+												}
+											]
+										},
+									]
+								},
+							]
+						}, {
+							name: "父节点1",
+							children: [{
+									name: "子节点1"
+								},
+								{
+									name: "父节点1",
+									children: [{
+											name: "子节点1"
+										},
+										{
+											name: "父节点1",
+											children: [{
+													name: "子节点1"
+												},
+												{
+													name: "子节点2"
+												}
+											]
+										},
+									]
+								},
+							]
+						}
+					];
+					zTreeObj = $.fn.zTree.init($("#treeDemo"), setting, nodes);
+				},
+				beforeDestroy: function($dom) {
+					var nodeList = zTreeObj.getCheckedNodes();
+					var nameList = [];
+					nodeList.forEach(function(item) { //如果是末尾节点
+						if(!item.children) {
+							nameList.push(item.name)
+						}
+					})
+					$dom.val(nameList.slice(','));
+				}
+			});
+			$('.test2').myPopover({
+				content: 'this is test2',
+			});
 ```
 
